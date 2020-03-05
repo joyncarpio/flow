@@ -445,7 +445,7 @@ class AimsunParams(SimParams):
         specifies whether to render the radius of RL observation
     pxpm : int, optional
         specifies rendering resolution (pixel / meter)
-    scenario_name : str, optional
+    network_name : str, optional
         name of the network generated in Aimsun.
     experiment_name : str, optional
         name of the experiment generated in Aimsun
@@ -453,7 +453,7 @@ class AimsunParams(SimParams):
         name of the replication generated in Aimsun. When loading
         an Aimsun template, this parameter must be set to the name
         of the replication to be run by the simulation; in this case,
-        the scenario_name and experiment_name parameters are not
+        the network_name and experiment_name parameters are not
         necessary as they will be obtained from the replication name.
     centroid_config_name : str, optional
         name of the centroid configuration to load in Aimsun. This
@@ -477,7 +477,7 @@ class AimsunParams(SimParams):
                  show_radius=False,
                  pxpm=2,
                  # set to match Flow_Aimsun.ang's scenario name
-                 scenario_name="Dynamic Scenario 866",
+                 network_name="Dynamic Scenario 866",
                  # set to match Flow_Aimsun.ang's experiment name
                  experiment_name="Micro SRC Experiment 867",
                  # set to match Flow_Aimsun.ang's replication name
@@ -488,7 +488,7 @@ class AimsunParams(SimParams):
         super(AimsunParams, self).__init__(
             sim_step, render, restart_instance, emission_path, save_render,
             sight_radius, show_radius, pxpm)
-        self.scenario_name = scenario_name
+        self.network_name = network_name
         self.experiment_name = experiment_name
         self.replication_name = replication_name
         self.centroid_config_name = centroid_config_name
@@ -914,10 +914,6 @@ class SumoLaneChangeParams:
         see lcPushyGap in Note
     lc_assertive : float, optional
         see lcAssertive in Note
-    lc_impatience : float, optional
-        see lcImpatience in Note
-    lc_time_to_impatience : float, optional
-        see lcTimeToImpatience in Note
     lc_accel_lat : float, optional
         see lcAccelLate in Note
     kwargs : dict
@@ -942,8 +938,6 @@ class SumoLaneChangeParams:
                  lc_pushy=0,
                  lc_pushy_gap=0.6,
                  lc_assertive=1,
-                 lc_impatience=0,
-                 lc_time_to_impatience=float("inf"),
                  lc_accel_lat=1.0,
                  **kwargs):
         """Instantiate SumoLaneChangeParams."""
@@ -998,17 +992,6 @@ class SumoLaneChangeParams:
             deprecated_attribute(self, "lcAssertive", "lc_assertive")
             lc_assertive = kwargs["lcAssertive"]
 
-        # check for deprecations (lcImpatience)
-        if "lcImpatience" in kwargs:
-            deprecated_attribute(self, "lcImpatience", "lc_impatience")
-            lc_impatience = kwargs["lcImpatience"]
-
-        # check for deprecations (lcTimeToImpatience)
-        if "lcTimeToImpatience" in kwargs:
-            deprecated_attribute(self, "lcTimeToImpatience",
-                                 "lc_time_to_impatience")
-            lc_time_to_impatience = kwargs["lcTimeToImpatience"]
-
         # check for deprecations (lcAccelLat)
         if "lcAccelLat" in kwargs:
             deprecated_attribute(self, "lcAccelLat", "lc_accel_lat")
@@ -1042,8 +1025,6 @@ class SumoLaneChangeParams:
                 "lcPushy": str(lc_pushy),
                 "lcPushyGap": str(lc_pushy_gap),
                 "lcAssertive": str(lc_assertive),
-                "lcImpatience": str(lc_impatience),
-                "lcTimeToImpatience": str(lc_time_to_impatience),
                 "lcAccelLat": str(lc_accel_lat)
             }
 
